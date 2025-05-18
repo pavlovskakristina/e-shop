@@ -1,4 +1,4 @@
-from body import Customer, Product, Order, products, orders
+from body import Customer, Product, Order, Admin, products, orders
 from enum import Enum
 import sys
 
@@ -59,16 +59,6 @@ def show_all_customers():
         print(f"{customer.id}: {customer.first_name} {customer.last_name}")
     print()
 
-def show_product():
-    # This functions shows all available products in the e-shop
-
-    print("__________PRODUCTS__________")
-    if not products:
-        print("No products in inventory")
-    else:
-        for idx, p in enumerate(products, start=1):
-            print(f"{idx}. {p.name} ({p.brand} : {p.amount}) in stock @ {p.price:.2f}")
-
 
 def admin_login():
     login = input("Username: ")
@@ -94,6 +84,8 @@ class AdminPanel(Enum):
 
 
 def admin_panel():
+    admin = Admin("admin")        # INSTANCJA KLASY
+
     # Here we ask admin what he wants to do as the admin. We use Enum to
     while True:
         print("\n--- ADMIN PANEL ---")
@@ -110,10 +102,10 @@ def admin_panel():
             show_all_customers()
 
         elif choice == AdminPanel.ADD_PRODUCT.value:
-            pass
+            admin.add_product()
 
         elif choice == AdminPanel.SHOW_PRODUCTS.value:
-            pass
+            admin.show_products()
 
         elif choice == AdminPanel.SHOW_SALES.value:
             pass
@@ -122,4 +114,3 @@ def admin_panel():
             print("Logged out from admin panel." + "\n" * 3)
             show_menu()
             break
-

@@ -1,3 +1,4 @@
+from datetime import date
 products = []
 orders = []
 
@@ -11,25 +12,28 @@ class Customer:
         self.id = Customer._id_counter
         Customer._id_counter += 1
 
+    def __str__(self):
+        return f"{self.id}: {self.first_name} {self.last_name}"
+
 
 class Product:
-    def __init__(self, product_name, product_brand, amount, price):
-        self.product_name = product_name
-        self.product_brand = product_brand
+    def __init__(self, name, brand, amount, price):
+        self.name = name
+        self.brand = brand
         self.amount = amount
         self.price = price
 
-        def show_product(self, product, amount):
-            pass
+    def __str__(self):
+        return f"{self.name} ({self.brand}) — {self.amount} in stock @ {self.price:.2f}"
 
 
 class Order:
     id_counter = 1
 
-    def __init__(self, id_n, customer, date):
-        self.id_n = id_n
+    def __init__(self, customer):
+        self.id_n = Order.id_counter
         self.customer = customer
-        self.date = date
+        self.date = date.today()
         self.total_orders = 0
         self.orders = []
 
@@ -39,10 +43,6 @@ class Order:
 
     def showing_order(self):
         print(self.id_n, self.date, self.customer.name, self.total_orders, self.orders)
-
-    # when the admin is adding product to the E-Shop
-    def add_product(self, product):
-        pass
 
     def total_price(self):
         pass
@@ -57,8 +57,22 @@ class Admin:
         name = input("Product name: ")
         try:
             price = float(input("Product price: "))
-            product = Product(name, price)
+            amount = int(input("Amount of the product: "))
+            brand = str(input("Product brand: "))
+            product = Product(name, brand, amount, price)
             products.append(product)
-            print(f"Product {name} added successfully.")
+            print(f"Product {name} {brand} added successfully. Amount: {amount}")
         except ValueError:
             print("Invalid price. Try again")
+
+
+    def show_products(self):
+        # This functions shows all available products in the e-shop
+        print("__________PRODUCTS__________")
+        if not products:
+            print("No products in inventory")
+        else:
+            for idx, p in enumerate(products, start=1):
+                print(f"{idx}. {p.name} ({p.brand}: {p.amount}) in stock. Price: {p.price:.2f}$")
+                print(f"Total price: {(p.price * p.amount)}$")
+
