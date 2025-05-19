@@ -15,6 +15,16 @@ def show_menu():
     """)
 
 
+class MainMenu(Enum):
+    LOG_IN_CUSTOMER = 1
+    CREATE_PROFIL = 2
+    LOG_IN_ADMIN = 3
+    EXIT = 4
+
+    def __str__(self):
+        return self.name.replace('_', ' ').title()
+
+
 def user_choice():
     show_menu()
     while True:
@@ -25,16 +35,11 @@ def user_choice():
             print("Please enter a valid number.")
             continue
 
-
-        #  1. Log in as a customer
-        #  2. Create profil
-        #  3. Log in as an admin
-        #  4. Exit
-
-        if choice == 1:
+        if choice == MainMenu.LOG_IN_CUSTOMER.value:
             # Log in as a customer
+            print("Currently nothing to do with it")
             pass
-        elif choice == 2:
+        elif choice == MainMenu.CREATE_PROFIL.value:
             # Log in as a new customer
             first_name = input("Write your name: ").capitalize().strip()
             last_name = input("Write your last name: ").capitalize().strip()
@@ -53,12 +58,12 @@ def user_choice():
 
             customers.append(new_customer)
 
-        elif choice == 3:
+        elif choice == MainMenu.LOG_IN_ADMIN.value:
             # LOGIN as admin to the system
             if admin_login():
                 admin_panel()
 
-        elif choice == 4:
+        elif choice == MainMenu.EXIT.value:
             # Quiting programme
             print("PROGRAM FINISHED")
             sys.exit(0)
