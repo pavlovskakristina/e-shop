@@ -26,6 +26,13 @@ class Product:
     def __str__(self):
         return f"{self.name} ({self.brand}) — {self.amount} in stock @ {self.price:.2f}"
 
+    # Funkcja, która wyświetla ekran dla customera.
+    def display_for_customer(self, idx=None):
+        if idx is not None:
+            print(f"{idx}. {self.name} by {self.brand} — {self.price:.2f}$")
+        else:
+            print(f"{self.name} by {self.brand} — {self.price:.2f}$")
+
 
 class Order:
     id_counter = 1
@@ -65,7 +72,6 @@ class Admin:
         except ValueError:
             print("Invalid price. Try again")
 
-
     def show_products(self):
         # This functions shows all available products in the e-shop
         print("__________PRODUCTS__________")
@@ -75,4 +81,3 @@ class Admin:
             for idx, p in enumerate(products, start=1):
                 print(f"{idx}. {p.name} ({p.brand}: {p.amount}) in stock. Price: {p.price:.2f}$")
                 print(f"Total price: {(p.price * p.amount)}$")
-

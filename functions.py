@@ -30,13 +30,20 @@ def user_choice():
             continue
 
         if choice == 1:
-            first_name = input("Write your name: ")
-            last_name = input("Write your last name: ")
+            first_name = input("Write your name: ").capitalize()
+            last_name = input("Write your last name: ").capitalize()
             new_customer = Customer(first_name, last_name)
             print(f"|The customer has been successfully created in the system: "
                   f"{new_customer.first_name} "
                   f"{new_customer.last_name}, "
                   f"ID: {new_customer.id} |")
+
+            if not products:
+                print("No products available yet.")
+            else:
+                print("AVAILABLE PRODUCTS:")
+                for i, product in enumerate(products, start=1):
+                    product.display_for_customer(i)
 
             customers.append(new_customer)
 
