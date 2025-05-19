@@ -8,15 +8,11 @@ customers = []
 def show_menu():
     print(" __________ E-SHOP __________")
     print("""
-    1. ADD NEW CUSTOMER 
-    2. EXIT 
-    3. LOGIN AS ADMIN 
+    1. LOG IN  
+    2. ADD NEW CUSTOMER  
+    3. LOG IN AS ADMIN 
+    4. EXIT
     """)
-
-
-def customer_interface():
-    pass
-    # Here we have items to buy
 
 
 def user_choice():
@@ -29,9 +25,19 @@ def user_choice():
             print("Please enter a valid number.")
             continue
 
+
+        #  1. Log in as a customer
+        #  2. Create profil
+        #  3. Log in as an admin
+        #  4. Exit
+
         if choice == 1:
-            first_name = input("Write your name: ").capitalize()
-            last_name = input("Write your last name: ").capitalize()
+            # Log in as a customer
+            pass
+        elif choice == 2:
+            # Log in as a new customer
+            first_name = input("Write your name: ").capitalize().strip()
+            last_name = input("Write your last name: ").capitalize().strip()
             new_customer = Customer(first_name, last_name)
             print(f"|The customer has been successfully created in the system: "
                   f"{new_customer.first_name} "
@@ -47,15 +53,15 @@ def user_choice():
 
             customers.append(new_customer)
 
-        # Quiting programme
-        elif choice == 2:
-            print("PROGRAM FINISHED")
-            sys.exit(0)
-
-        # LOGIN as admin to the system
         elif choice == 3:
+            # LOGIN as admin to the system
             if admin_login():
                 admin_panel()
+
+        elif choice == 4:
+            # Quiting programme
+            print("PROGRAM FINISHED")
+            sys.exit(0)
 
 
 def show_all_customers():
@@ -115,6 +121,7 @@ def admin_panel():
             admin.show_products()
 
         elif choice == AdminPanel.SHOW_SALES.value:
+            # Here probably we are going to use some analytics libraries (Pandas, matlplotlib)
             pass
 
         elif choice == AdminPanel.LOGOUT.value:
