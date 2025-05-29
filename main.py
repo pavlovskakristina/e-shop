@@ -1,14 +1,10 @@
 from functions import user_choice, load_products_from_file, admin_login
 from body import products, Admin
-from storage import if_products_are_the_same
 import os
 
 
 def main():
     running_app = 1
-    merged = if_products_are_the_same()
-    print(f"Finalized {len(merged)} unique product in the file.")
-
     load_products_from_file()
 
     while running_app:

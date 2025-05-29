@@ -134,6 +134,7 @@ def admin_panel():
             print("Invalid option. Try again.")
             continue
 
+
         if choice == AdminPanel.SHOW_CUSTOMERS.value:
             show_all_customers()
 

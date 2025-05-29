@@ -1,5 +1,5 @@
 from datetime import date
-from storage import save_products_to_file
+from storage import save_products_to_file, if_products_are_the_same
 products = []
 orders = []
 
@@ -69,8 +69,10 @@ class Admin:
             product = Product(name, brand, amount, price)
             products.append(product)
             print(f"Product {name} {brand} added successfully. Amount: {amount}")
-            #products.append(product)
             save_products_to_file(products)
+            merged = if_products_are_the_same()
+            print(f"Finalized {len(merged)} unique product in the file.")
+
         except ValueError:
             print("Invalid price. Try again")
 
