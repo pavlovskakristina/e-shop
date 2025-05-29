@@ -1,4 +1,5 @@
 from datetime import date
+from storage import save_products_to_file
 products = []
 orders = []
 
@@ -55,7 +56,6 @@ class Order:
         pass
 
 
-# We can also add brand, amount ect
 class Admin:
     def __init__(self, username):
         self.username = username
@@ -69,6 +69,8 @@ class Admin:
             product = Product(name, brand, amount, price)
             products.append(product)
             print(f"Product {name} {brand} added successfully. Amount: {amount}")
+            #products.append(product)
+            save_products_to_file(products)
         except ValueError:
             print("Invalid price. Try again")
 

@@ -1,8 +1,25 @@
 from body import Customer, Product, Order, Admin, products, orders
 from enum import Enum
+import json
 import sys
 
 customers = []
+
+
+def load_products_from_file(filename="products.json"):
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+            for item in data:
+                product = Product(
+                    name=item["name"],
+                    brand=item["brand"],
+                    amount=item["amount"],
+                    price=item["price"]
+                )
+                products.append(product)
+    except FileNotFoundError:
+        pass
 
 
 def show_menu():
@@ -111,7 +128,7 @@ def admin_panel():
             print(f"{option.value}. {option}")
 
         try:
-             choice = int(input("Choose option: "))
+            choice = int(input("Choose option: "))
         except ValueError:
             print("Invalid option. Try again.")
             continue
