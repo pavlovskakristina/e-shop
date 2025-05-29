@@ -18,6 +18,7 @@ def load_products_from_file(filename="products.json"):
                     price=item["price"]
                 )
                 products.append(product)
+
     except FileNotFoundError:
         pass
 
