@@ -1,5 +1,5 @@
 from datetime import date
-from storage import save_products_to_file, if_products_are_the_same
+#from storage import save_products_to_file, if_products_are_the_same, save_customers_to_file
 products = []
 orders = []
 
@@ -7,9 +7,10 @@ orders = []
 class Customer:
     _id_counter = 1
 
-    def __init__(self, first_name, last_name):
+    def __init__(self, first_name, last_name, password):
         self.first_name = first_name
         self.last_name = last_name
+        self.password = password
         self.id = Customer._id_counter
         Customer._id_counter += 1
 
@@ -61,7 +62,10 @@ class Admin:
         self.username = username
 
     def add_product(self):
+        from storage import if_products_are_the_same
         name = input("Product name: ")
+        from storage import save_products_to_file
+        save_products_to_file(products)
         try:
             price = float(input("Product price: "))
             amount = int(input("Amount of the product: "))

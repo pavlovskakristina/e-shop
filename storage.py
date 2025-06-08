@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+from body import Customer
 
 
 def save_products_to_file(products, filename="products.json"):
@@ -32,3 +33,38 @@ def if_products_are_the_same(filename="products.json"):
             json.dump(merged, f, indent=4, ensure_ascii=False)
 
         return merged
+
+
+def save_customers_to_file(customers, filename="users.json"):
+    try:
+        with open(filename) as f:
+            existing = json.load(f)
+    except FileNotFoundError:
+        existing = []
+
+    # Dodajemy użytkowników, których jeszcze nie ma
+    ids = {c["id"] for c in existing}
+    to_save = existing + [
+        {"id": c.id,
+         "first_name": c.first_name,
+         "last_name": c.last_name,
+         "password": c.password}
+        for c in customers if c.id not in ids
+    ]
+    # ZAPISUJEMY CAŁOŚć
+    with open(filename, "w") as f:
+        json.dump(to_save, f, indent=4)
+
+
+def load_customers_from_file(filename="users.json"):
+    loaded = []
+    try:
+        with open(filename) as f:
+            data = json.load(f)
+            for item in data:
+                c = Customer(item["first_name"], item["last_name"], item["password"])
+                c.id = item["id"]
+                loaded.append(c)
+    except FileNotFoundError:
+        pass
+    return loaded

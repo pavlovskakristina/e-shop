@@ -1,9 +1,12 @@
 from body import Customer, Product, Order, Admin, products, orders
+from storage import save_customers_to_file, load_customers_from_file
 from enum import Enum
+from gui import load_products, EShopGUI
+
 import json
 import sys
 
-customers = []
+customers = load_customers_from_file()
 
 
 def load_products_from_file(filename="products.json"):
@@ -54,18 +57,31 @@ def user_choice():
             continue
 
         if choice == MainMenu.LOG_IN_CUSTOMER.value:
-            # Log in as a customer
-            print("Currently nothing to do with it")
-            pass
+            # logowanie customera
+            customer = login_customer()
+
+            if customer:
+                # 2️⃣ Wczytaj produkty do GUI i uruchom okno
+                load_products()
+                app = EShopGUI(customer)  # przekaż zalogowanego klienta
+                app.mainloop()
+
+            continue  # wróć do menu po zamknięciu GUI
+
         elif choice == MainMenu.CREATE_PROFIL.value:
             # Log in as a new customer
+
             first_name = input("Write your name: ").capitalize().strip()
             last_name = input("Write your last name: ").capitalize().strip()
-            new_customer = Customer(first_name, last_name)
+            password = input("Write password: ").strip()
+            new_customer = Customer(first_name, last_name, password)
             print(f"|The customer has been successfully created in the system: "
                   f"{new_customer.first_name} "
                   f"{new_customer.last_name}, "
                   f"ID: {new_customer.id} |")
+
+            customers.append(new_customer)
+            save_customers_to_file(customers)
 
             if not products:
                 print("No products available yet.")
@@ -94,6 +110,26 @@ def show_all_customers():
     for customer in customers:
         print(f"{customer.id}: {customer.first_name} {customer.last_name}")
     print()
+
+
+def login_customer():
+    """
+    CLI-owe logowanie klienta po jego ID.
+    Zwraca obiekt Customer lub None.
+    """
+    try:
+        cid = int(input("Enter your customer ID: "))
+    except ValueError:
+        print("Invalid ID. Please enter a number.")
+        return None
+
+    customer = next((c for c in customers if c.id == cid), None)
+    if not customer:
+        print("Customer not found.")
+        return None
+
+    print(f"Welcome, {customer.first_name}!")
+    return customer
 
 
 def admin_login():
@@ -133,7 +169,6 @@ def admin_panel():
         except ValueError:
             print("Invalid option. Try again.")
             continue
-
 
         if choice == AdminPanel.SHOW_CUSTOMERS.value:
             show_all_customers()
